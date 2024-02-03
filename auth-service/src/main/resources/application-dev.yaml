@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/auth-server
+    username: postgres
+    password: admin
+    hikari:
+      connection-test-query: SELECT 1;
+  jpa:
+    show-sql: true
+    open-in-view: false
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+  liquibase:
+    enabled: false
+  mail:
+    host: localhost
+    port: 1025
+    username: test@icipe.org
+    password: test@123
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true

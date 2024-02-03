@@ -1,0 +1,33 @@
+server:
+  port: ${PORT:8080}
+
+spring:
+  main:
+    banner-mode: off
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    hikari:
+      connection-test-query: SELECT 1;
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+  liquibase:
+    enabled: true
+    change-log: /db/changelog/main-changelog.xml
+  mail:
+    username: ${EMAIL_ADDRESS}
+    password: ${EMAIL_PASSWORD}
+    host: ${EMAIL_HOST}
+    port: ${EMAIL_PORT}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true

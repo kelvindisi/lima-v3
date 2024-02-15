@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net/nz/thymeleaf/layout" layout:decorate="~{layout}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Authorization Service</title>
+</head>
+<body>
+    <div layout:fragment="main-content">
+        <h3>Welcome to Authorization Server Home Page</h3>
+        <p sec:authentication="name">Not Known</p>
+    </div>
+</body>
+</html>

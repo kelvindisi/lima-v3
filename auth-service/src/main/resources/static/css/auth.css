@@ -1,0 +1,19 @@
+.auth-form-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.auth-form-container .auth-form {
+    max-width: 550px;
+    width: 90%;
+    padding: 2rem;
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px 5px #ddd;
+}
+
+.btn-link {
+    text-decoration: none;
+}

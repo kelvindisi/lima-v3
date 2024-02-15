@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{dashboard/admin_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>New Client</title>
+</head>
+<body>
+    <div class="container mb-form" layout:fragment="content">
+        <form method="post" th:action="@{/clients/create}" th:object="${createClient}">
+            <div class="mb-3">
+                <label for="clientName" class="form-label">Client Name</label>
+                <input type="text" th:field="*{clientName}" class="form-control form-control-lg" id="clientName"
+                       placeholder="Client" th:classappend="${#fields.hasErrors('clientName')? 'is-invalid': ''}">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('clientName')}">
+                    <p th:each="error: ${#fields.errors('clientName')}" th:text="${error}"></p>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="clientId" class="form-label">Client ID</label>
+                <input type="text" th:field="*{clientId}" class="form-control form-control-lg" id="clientId"
+                       placeholder="sample_client" th:classappend="${#fields.hasErrors('clientId')? 'is-invalid': ''}">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('clientId')}">
+                    <p th:each="error: ${#fields.errors('clientId')}" th:text="${error}"></p>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="redirectUri" class="form-label">Redirect Uri(s) (Comma Separated)</label>
+                <input type="text" th:field="*{redirectUris}" class="form-control" id="redirectUri"
+                       placeholder="https://example.com/auth/code" th:classappend="${#fields.hasErrors('redirectUris')? 'is-invalid': ''}">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('redirectUris')}">
+                    <p th:each="error: ${#fields.errors('redirectUris')}" th:text="${error}"></p>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="logoutUri" class="form-label">Logout Redirect Uri(s) (Comma Separated)</label>
+                <input type="text" th:field="*{logoutRedirectUri}" class="form-control" id="logoutUri"
+                       placeholder="https://example.com/home" th:classappend="${#fields.hasErrors('logoutRedirectUri')? 'is-invalid': ''}">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('logoutRedirectUri')}">
+                    <p th:each="error: ${#fields.errors('logoutRedirectUri')}" th:text="${error}"></p>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="authenticationMethods" class="form-label">Authentication Methods</label>
+                <select name="authenticationMethods" th:field="*{authenticationMethods}" multiple id="authenticationMethods"
+                        class="form-select" th:classappend="${#fields.hasErrors('authenticationMethods')? 'is-invalid': ''}">
+                    <option th:each="method: ${authenticationMethods}" th:value="${method.getValue()}" th:text="${method.getKey()}"></option>
+                </select>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('authenticationMethods')}">
+                    <p th:each="error: ${#fields.errors('authenticationMethods')}" th:text="${error}"></p>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="grantTypes" class="form-label">Grant Types</label>
+                <select name="grantTypes" th:field="*{grantTypes}" multiple id="grantTypes"
+                        class="form-select" th:classappend="${#fields.hasErrors('grantTypes')? 'is-invalid': ''}">
+                    <option th:each="grantType: ${grantTypes}" th:value="${grantType.getValue()}" th:text="${grantType.getKey()}"></option>
+                </select>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('grantTypes')}">
+                    <p th:each="error: ${#fields.errors('grantTypes')}" th:text="${error}"></p>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="scopes" class="form-label">Scopes</label>
+                <select name="scopes" th:field="*{scopes}" multiple id="scopes"
+                        class="form-select" th:classappend="${#fields.hasErrors('scopes')? 'is-invalid': ''}">
+                    <option th:each="scope: ${scopes}" th:value="${scope.getValue()}" th:text="${scope.getKey()}"></option>
+                </select>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('scopes')}">
+                    <p th:each="error: ${#fields.errors('scopes')}" th:text="${error}"></p>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="clientSecret" class="form-label">Client Secret</label>
+                <input type="password" th:field="*{clientSecret}" class="form-control form-control-lg" id="clientSecret"
+                       placeholder="Secret@123" th:classappend="${#fields.hasErrors('clientSecret')? 'is-invalid': ''}" autocomplete="off">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('clientSecret')}">
+                    <p th:each="error: ${#fields.errors('clientSecret')}" th:text="${error}"></p>
+                </div>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-primary">Create</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

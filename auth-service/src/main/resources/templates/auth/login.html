@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" data-th-href="@{/css/auth.css}">
+</head>
+<body>
+    <div layout:fragment="main-content" class="auth-form-container">
+        <div class="auth-form">
+            <h4 class="text-center">Sign-In</h4>
+            <div th:if="${param.error}" class="alert alert-danger">
+                Wrong username or password
+            </div>
+            <div th:if="${param.logout}" class="alert alert-success">
+                You've been logged out successfully
+            </div>
+            <form method="post" th:action="@{/auth/login}">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control form-control-lg" id="email">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" name="password" class="form-control form-control-lg" id="password">
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-primary" type="submit">Login</button>
+                </div>
+                <div class="mb-3">
+                    <small class="text-muted">Don't have account? <a data-th-href="@{/auth/register}" class="btn btn-link">Create Account</a></small>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

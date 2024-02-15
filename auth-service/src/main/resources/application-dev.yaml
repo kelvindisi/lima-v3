@@ -27,3 +27,6 @@ spring:
           auth: true
           starttls:
             enable: true
+logging:
+  level:
+    org.springframework.security: debug

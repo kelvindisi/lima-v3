@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
+</head>
+<body>
+    <div layout:fragment="main-content">
+        <div th:replace="~{dashboard/fragment/navbar::navbar}"></div>
+        <div style="margin-top: 60px;">
+            <div layout:fragment="content"></div>
+        </div>
+    </div>
+</body>
+</html>

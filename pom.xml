@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>auth-service</module>
-        <module>commerce-resource</module>
+        <module>commerce-service</module>
     </modules>
 
     <properties>

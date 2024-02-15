@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Logout</title>
+</head>
+<body>
+    <div layout:fragment="main-content">
+        <h3>Are you sure that you want to log-out?</h3>
+        <form method="post" th:action="@{/auth/logout}">
+            <button class="btn btn-primary">Log-out</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -18,7 +18,6 @@ import java.security.interfaces.RSAPublicKey;
 import java.security.spec.EncodedKeySpec;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.time.Duration;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.icipe.lima.auth.helper.FileHelper;
@@ -34,19 +33,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
-import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
-import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
@@ -56,18 +49,20 @@ import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 @RequiredArgsConstructor
 public class SecurityConfig {
   public static final Path CERT_FOLDER_PATH = Paths.get("cert", "rsa");
+  public static final String[] WHITELIST = {"/", "/auth/**", "/css/**", "/js/**"};
+
+  private final AuthenticationSuccessHandler successHandler;
   private final PasswordEncoder passwordEncoder;
 
   @Bean
   @Order(Ordered.HIGHEST_PRECEDENCE)
   public SecurityFilterChain asFilterChain(HttpSecurity http) throws Exception {
     OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-    http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
-            .oidc(Customizer.withDefaults());
+    http.getConfigurer(OAuth2AuthorizationServerConfigurer.class).oidc(Customizer.withDefaults());
     http.exceptionHandling(
         (exception) ->
             exception.defaultAuthenticationEntryPointFor(
-                new LoginUrlAuthenticationEntryPoint("/login"),
+                new LoginUrlAuthenticationEntryPoint("/auth/login"),
                 new MediaTypeRequestMatcher(MediaType.TEXT_HTML)));
     //        to enable resource access for authenticated users eg -> user details
     http.oauth2ResourceServer((resource) -> resource.jwt(Customizer.withDefaults()));
@@ -77,39 +72,27 @@ public class SecurityConfig {
   @Bean
   @Order(2)
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http.formLogin(Customizer.withDefaults())
-        .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated());
+    http.authorizeHttpRequests(
+            request -> request.requestMatchers(WHITELIST).permitAll().anyRequest().authenticated())
+        .formLogin(
+            formLogin ->
+                formLogin
+                    .loginPage("/auth/login")
+                    .usernameParameter("email")
+                    .successHandler(successHandler)
+                    .permitAll())
+            .logout(logout -> logout
+                    .logoutUrl("/auth/logout").permitAll());
     return http.build();
-  }
-
-  @Bean
-  public RegisteredClientRepository registeredClientRepository() {
-    var client =
-        RegisteredClient.withId(UUID.randomUUID().toString())
-            .clientId("client")
-            .clientSecret(passwordEncoder.encode("password"))
-            .clientName("Test Client")
-            .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-            .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-            .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-            .scope(OidcScopes.OPENID)
-            .redirectUri("https://example.com/auth")
-            .postLogoutRedirectUri("https://example.com/auth/login")
-            .tokenSettings(
-                TokenSettings.builder()
-                    .accessTokenTimeToLive(Duration.ofHours(24))
-                    .refreshTokenTimeToLive(Duration.ofDays(2))
-                    .build())
-            .build();
-    return new InMemoryRegisteredClientRepository(client);
   }
 
   @Bean
   public UserDetailsService userDetailsService() {
     var user =
-        User.withUsername("admin")
+        User.withUsername("admin@icipe.org")
             .password(passwordEncoder.encode("password"))
             .authorities("read")
+            .roles("SUPER_ADMIN")
             .build();
     return new InMemoryUserDetailsManager(user);
   }

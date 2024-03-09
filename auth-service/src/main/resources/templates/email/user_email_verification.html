@@ -1,10 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<table style="background-color: aliceblue; padding: 1rem; width: 100%; text-align: center; ">
+    <thead>
+        <tr>
+            <th>
+                <p style="font-weight: bold; color: forestgreen; text-align: center; font-size: 2rem">Account Verification</p>
+                <hr />
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <p style="margin-bottom: 1rem; font-style: italic">Hello
+                    <span style="font-weight: bold" th:text="${name}">John</span>, </p>
+                <p>
+                    Your account was successfully created. </p>
+                <p> Please click on
+                    <a th:href="${verificationLink}"
+                        style="text-decoration: none; font-weight: bolder; color: forestgreen; padding: 10px; border: none; border-radius: 10px"
+                            >here</a> to activate your account.
+                </p>
 
-</body>
-</html>
+                <p>If the link above doesn't work, you can copy the link below to your browser.</p>
+                <p th:text="${verificationLink}">verification link</p>
+
+                <p
+                        style="font-weight: bold; margin-top: 2rem"
+                >Don't share this email with anyone.</p>
+            </td>
+        </tr>
+    </tbody>
+</table>

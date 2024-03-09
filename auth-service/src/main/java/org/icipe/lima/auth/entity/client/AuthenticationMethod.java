@@ -1,4 +1,4 @@
-package org.icipe.lima.auth.entity;
+package org.icipe.lima.auth.entity.client;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,6 +8,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -17,7 +18,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.icipe.lima.auth.entity.AbstractEntity;
+import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,24 +27,27 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 @Setter
 @Builder
 @Entity
-@Table(name = "grant_type")
+@Table(name = "authentication_method")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class GrantType extends AbstractEntity {
-  @Column(name = "grant_type")
-  private String grantType;
+public class AuthenticationMethod extends AbstractEntity {
+  @Column(name = "method")
+  private String method;
 
   @ManyToMany
   @JoinTable(
-      name = "client_grant_type",
-      joinColumns = @JoinColumn(name = "grant_type_id", referencedColumnName = "id"),
+      name = "client_authentication_method",
+      joinColumns = @JoinColumn(name = "authentication_method_id", referencedColumnName = "id"),
       inverseJoinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"))
-  private List<Client> clients;
+  private List<Client> clients = new ArrayList<>();
 
-  public static Consumer<Set<AuthorizationGrantType>> from(List<GrantType> grantTypes) {
+  public static Consumer<Set<ClientAuthenticationMethod>> from(
+      List<AuthenticationMethod> authenticationMethods) {
     return c ->
         c.addAll(
-            grantTypes.stream()
-                .map(grantType -> new AuthorizationGrantType(grantType.getGrantType()))
+            authenticationMethods.stream()
+                .map(
+                    authenticationMethod ->
+                        new ClientAuthenticationMethod(authenticationMethod.method))
                 .collect(Collectors.toSet()));
   }
 }

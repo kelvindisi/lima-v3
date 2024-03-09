@@ -1,4 +1,4 @@
-package org.icipe.lima.auth.entity;
+package org.icipe.lima.auth.entity.client;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -13,6 +13,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.icipe.lima.auth.entity.AbstractEntity;
 
 import java.util.List;
 import java.util.Set;

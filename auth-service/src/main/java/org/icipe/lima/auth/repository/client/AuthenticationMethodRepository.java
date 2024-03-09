@@ -1,7 +1,7 @@
-package org.icipe.lima.auth.repository;
+package org.icipe.lima.auth.repository.client;
 
 import java.util.Optional;
-import org.icipe.lima.auth.entity.AuthenticationMethod;
+import org.icipe.lima.auth.entity.client.AuthenticationMethod;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

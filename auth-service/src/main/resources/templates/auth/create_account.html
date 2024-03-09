@@ -9,52 +9,66 @@
     <link rel="stylesheet" data-th-href="@{/css/auth.css}">
 </head>
 <body>
-    <div layout:fragment="main-content" class="auth-form-container">
-        <div class="auth-form">
-            <h4 class="text-center">Create New User Account</h4>
-            <form method="post" th:action="@{/auth/register}" th:object="${createAccount}">
-                <div class="alert alert-success"
-                     th:if="${message}" th:text="${message}"></div>
-                <div class="mb-3">
-                    <label for="firstName" class="form-label">First Name</label>
-                    <input type="text" th:field="*{firstName}" id="firstName" class="form-control form-control-lg" placeholder="John"
-                           th:classappend="${#fields.hasErrors('firstName')? 'is-invalid': ''}">
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('firstName')}">
-                        <p th:each="error: ${#fields.errors('firstName')}" th:text="${error}"></p>
-                    </div>
+<div layout:fragment="main-content" class="auth-form-container">
+    <div class="auth-form">
+        <h4 class="text-center">Create New User Account</h4>
+        <form method="post" th:action="@{/auth/register}" th:object="${createAccount}">
+            <div class="alert alert-success"
+                 th:if="${message}" th:text="${message}"></div>
+            <div class="mb-3">
+                <label for="firstName" class="form-label">First Name</label>
+                <input type="text" th:field="*{firstName}" id="firstName" class="form-control form-control-lg"
+                       placeholder="John"
+                       th:classappend="${#fields.hasErrors('firstName')? 'is-invalid': ''}">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('firstName')}">
+                    <p th:each="error: ${#fields.errors('firstName')}" th:text="${error}"></p>
                 </div>
-                <div class="mb-3">
-                    <label for="lastName" class="form-label">Last Name</label>
-                    <input type="text" th:field="*{lastName}" class="form-control form-control-lg" id="lastName" placeholder="Doe"
-                           th:classappend="${#fields.hasErrors('lastName')? 'is-invalid': ''}">
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}">
-                        <p th:each="error : ${#fields.errors('lastName')}" th:text="${error}"></p>
-                    </div>
+            </div>
+            <div class="mb-3">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input type="text" th:field="*{lastName}" class="form-control form-control-lg" id="lastName"
+                       placeholder="Doe"
+                       th:classappend="${#fields.hasErrors('lastName')? 'is-invalid': ''}">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}">
+                    <p th:each="error : ${#fields.errors('lastName')}" th:text="${error}"></p>
                 </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" th:field="*{email}" class="form-control form-control-lg" id="email" placeholder="johndoe@gmail.com"
-                           th:classappend="${#fields.hasErrors('email')? 'is-invalid': ''}">
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}">
-                        <p th:each="error: ${#fields.errors('email')}" th:text="${error}"></p>
-                    </div>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" th:field="*{email}" class="form-control form-control-lg" id="email"
+                       placeholder="johndoe@gmail.com"
+                       th:classappend="${#fields.hasErrors('email')? 'is-invalid': ''}">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}">
+                    <p th:each="error: ${#fields.errors('email')}" th:text="${error}"></p>
                 </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" name="password" class="form-control form-control-lg" id="password" placeholder="Secret@123"
-                           autocomplete="off" th:classappend="${#fields.hasErrors('password')? 'is-invalid': ''}">
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}">
-                        <p th:each="error: ${#fields.errors('password')}" th:text="${error}"></p>
-                    </div>
+            </div>
+            <div class="mb-3">
+                <label for="phoneNumber" class="form-label">Phone Number</label>
+                <input type="tel" th:field="*{phoneNumber}" class="form-control form-control-lg" id="phoneNumber"
+                       placeholder="0712345678"
+                       th:classappend="${#fields.hasErrors('phoneNumber')? 'is-invalid': ''}">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('phoneNumber')}">
+                    <p th:each="error: ${#fields.errors('phoneNumber')}" th:text="${error}"></p>
                 </div>
-                <div class="mb-3">
-                    <button class="btn btn-primary">Create Account</button>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" name="password" class="form-control form-control-lg" id="password"
+                       placeholder="Secret@123"
+                       autocomplete="off" th:classappend="${#fields.hasErrors('password')? 'is-invalid': ''}">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}">
+                    <p th:each="error: ${#fields.errors('password')}" th:text="${error}"></p>
                 </div>
-                <div class="mb-3 text-end">
-                    <small>Already have account? <a th:href="@{/auth/login}" class="btn btn-link">Click here to login</a></small>
-                </div>
-            </form>
-        </div>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-primary">Create Account</button>
+            </div>
+            <div class="mb-3 text-end">
+                <small>Already have account? <a th:href="@{/auth/login}" class="btn btn-link">Click here to
+                    login</a></small>
+            </div>
+        </form>
     </div>
+</div>
 </body>
 </html>

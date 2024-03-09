@@ -3,7 +3,7 @@ package org.icipe.lima.auth.validation.validators;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
-import org.icipe.lima.auth.repository.ClientRepository;
+import org.icipe.lima.auth.repository.client.ClientRepository;
 import org.icipe.lima.auth.validation.ValidClientId;
 import org.springframework.stereotype.Component;
 

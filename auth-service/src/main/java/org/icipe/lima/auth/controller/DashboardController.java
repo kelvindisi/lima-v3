@@ -13,7 +13,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.icipe.lima.auth.entity.Client;
+import org.icipe.lima.auth.entity.client.Client;
 import org.icipe.lima.auth.request.CreateClientRequest;
 import org.icipe.lima.auth.service.RegisteredClientService;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -30,13 +30,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
 @Controller
-@RequestMapping("/clients")
+@RequestMapping("/dashboard")
 @RequiredArgsConstructor
-public class ClientController {
+public class DashboardController {
   private final RegisteredClientService clientService;
 
-  //  TODO -> Introduce pagination
   @GetMapping
+  public String dashboardHome() {
+    return "dashboard/home.html";
+  }
+
+  //  TODO -> Introduce pagination
+  @GetMapping("clients")
   public String getAllClients(Model model) {
     List<Client> clients = clientService.findAll();
     model.addAttribute("clients", clients);
@@ -44,7 +49,7 @@ public class ClientController {
     return "dashboard/clients/all_clients";
   }
 
-  @GetMapping("/create")
+  @GetMapping("clients/create")
   public String createClient(
       @ModelAttribute("createClient") CreateClientRequest createClientRequest, Model model) {
     model.addAttribute("authenticationMethods", getAuthenticationMethods());
@@ -54,7 +59,7 @@ public class ClientController {
     return "dashboard/clients/create_client";
   }
 
-  @PostMapping("/create")
+  @PostMapping("clients/create")
   public String saveClient(
       @Valid @ModelAttribute("createClient") CreateClientRequest createClientRequest,
       BindingResult bindingResult,

@@ -1,4 +1,4 @@
-package org.icipe.lima.auth.entity;
+package org.icipe.lima.auth.entity.client;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -11,7 +11,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -19,6 +18,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.icipe.lima.auth.entity.AbstractEntity;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 
 @AllArgsConstructor
